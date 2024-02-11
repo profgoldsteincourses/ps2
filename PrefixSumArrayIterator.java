@@ -1,40 +1,40 @@
 /**
-   An iterator to computes and returns prefix sums over an array
+   An iterator to computes and returns prefix products over an array
    of int values.
 
-   @author Jim Teresco
-   @version Spring 2020
+   @author Ira Goldstein
+   @version Spring 2024
 */
 
-public class PrefixSumArrayIterator implements java.util.Iterator<Integer> {
+public class prefixProductArrayIterator implements java.util.Iterator<Integer> {
 
     /** the array over which we are iterating */
     private int[] array;
 
-    /** the index of the next value to include in the prefix sum */
+    /** the index of the next value to include in the prefix product */
     private int current;
 
-    /** the sum of elements before array[current] */
-    private int prefixSum;
+    /** the product of elements before array[current] */
+    private int prefixProduct;
 
     /**
-       Construct a new prefix sum iterator over the given array.
+       Construct a new prefix product iterator over the given array.
 
        @param a the array containing the values
     */
-    public PrefixSumArrayIterator(int[] a) {
+    public prefixProductArrayIterator(int[] a) {
 
 	array = a;
 	current = 0;
-	prefixSum = 0;
+	prefixProduct = 1;
     }
 
     /**
        Return whether there are more elements that have not yet been
-       part of the prefix sum sequence.
+       part of the prefix product sequence.
 
        @return whether there are more elements that have not yet been
-       part of the prefix sum sequence
+       part of the prefix product sequence
     */
     @Override
     public boolean hasNext() {
@@ -43,20 +43,20 @@ public class PrefixSumArrayIterator implements java.util.Iterator<Integer> {
     }
 
     /**
-       Return the next value in the prefix sum sequence.
+       Return the next value in the prefix product sequence.
 
-       @return the next value in the prefix sum sequence
+       @return the next value in the prefix product sequence
     */
     @Override
     public Integer next() {
 
-	prefixSum += array[current];
+	prefixProduct = prefixProduct * array[current];
 	current++;
-	return prefixSum;
+	return prefixProduct;
     }
 
     /**
-       main method to test the PrefixSumArrayIterator.
+       main method to test the prefixProductArrayIterator.
 
        @param args[0] size of array to generate
        @param args[1] range of random values
@@ -64,7 +64,7 @@ public class PrefixSumArrayIterator implements java.util.Iterator<Integer> {
     public static void main(String args[]) {
 
 	if (args.length != 2) {
-	    System.err.println("Usage: java PrefixSumArrayIterator size range");
+	    System.err.println("Usage: java prefixProductArrayIterator size range");
 	    System.exit(1);
 	}
 
@@ -84,15 +84,15 @@ public class PrefixSumArrayIterator implements java.util.Iterator<Integer> {
 	java.util.Random r = new java.util.Random();
 	int a[] = new int[n];
 	for (int i = 0; i < n; i++) {
-	    a[i] = r.nextInt(range);
+	    a[i] = r.nextInt(range) + 1;
 	}
 
 	// print the array
 	System.out.println("Generated array: " + java.util.Arrays.toString(a));
 
-	// print the prefix sums
-	System.out.println("Prefix sums:");
-	java.util.Iterator<Integer> iter = new PrefixSumArrayIterator(a);
+	// print the prefix products
+	System.out.println("Prefix productss:");
+	java.util.Iterator<Integer> iter = new prefixProductArrayIterator(a);
 	while (iter.hasNext()) {
 	    System.out.println(iter.next());
 	}
